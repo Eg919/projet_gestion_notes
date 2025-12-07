@@ -1,0 +1,26 @@
+[
+    {
+        "code_matiere": "PHY101",
+        "nom_matiere": "Physique",
+        "coefficient": 3.0,
+        "coefficient_cot": 0.5,
+        "coefficient_tp": 1.0,
+        "coefficient_ex": 1.5
+    },
+    {
+        "code_matiere": "CHM101",
+        "nom_matiere": "Chimie",
+        "coefficient": 3.5,
+        "coefficient_cot": 1.0,
+        "coefficient_tp": 1.0,
+        "coefficient_ex": 1.5
+    },
+    {
+        "code_matiere": "hj55",
+        "nom_matiere": "rrtyytuy",
+        "coefficient": "2",
+        "coefficient_cot": "2",
+        "coefficient_tp": "1",
+        "coefficient_ex": "6"
+    }
+]
