@@ -1,13 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 
-from controllers.etudiant_controller import EtudiantController
-from controllers.departement_controller import DepartementController
-from controllers.note_controller import NoteController
-from controllers.matiere_controller import MatiereController
-from services.moyenne_service import MoyenneService
-from services.moyenne_generale_service import MoyenneGeneraleService
-from services.rang_service import RangService
+from controllers.bulletin_controller import BulletinController
 
 
 class BulletinView(tk.Frame):
@@ -26,13 +20,8 @@ class BulletinView(tk.Frame):
 		super().__init__(master)
 		self.master = master
 
-		self.etudiant_controller = EtudiantController()
-		self.departement_controller = DepartementController()
-		self.note_controller = NoteController()
-		self.matiere_controller = MatiereController()
-		self.moyenne_service = MoyenneService()
-		self.moyenne_generale_service = MoyenneGeneraleService()
-		self.rang_service = RangService()
+		# Contrôleur qui porte toute la logique métier du bulletin
+		self.controller = BulletinController()
 
 		self.all_students = []
 		self.filtered_students = []
@@ -149,10 +138,8 @@ class BulletinView(tk.Frame):
 	def refresh_students_list(self):
 		self.student_listbox.delete(0, tk.END)
 
-		try:
-			self.all_students = self.etudiant_controller.read_all()
-		except Exception:
-			self.all_students = []
+		# Récupération des étudiants via le contrôleur de bulletin
+		self.all_students = self.controller.get_all_students()
 
 		selected_level = self.level_var.get() or ""
 		selected_dept_label = self.dept_var.get() if hasattr(self, "dept_var") else "Tous"
@@ -207,40 +194,27 @@ class BulletinView(tk.Frame):
 		self.value_nom.config(text=nom)
 		self.value_prenom.config(text=prenom)
 		self.value_niveau.config(text=niveau)
-		self.value_dept.config(text=self._get_departement_nom(dept_index))
+		self.value_dept.config(text=self.controller.get_departement_nom(dept_index))
 
-		# Récupérer les matières où l'étudiant a des notes pour ce niveau
-		codes_matieres = self._get_matieres_pour_etudiant_et_niveau(matricule, niveau)
+		# Demander au contrôleur toutes les données du bulletin
+		data = self.controller.get_bulletin_data(matricule, niveau, dept_index)
 
-		# Indexer les matières pour connaître nom + coefficient
-		matieres_index = self._indexer_matieres()
-
-		somme_coef = 0.0
-		somme_moy_x_coef = 0.0
-
-		for code in sorted(codes_matieres):
-			matiere_data = matieres_index.get(code)
-			if not matiere_data:
-				continue
-
-			nom_matiere = matiere_data.get("nom_matiere", "")
-			coef = float(matiere_data.get("coefficient", 0.0) or 0.0)
-			moy = self.moyenne_service.calculer_moyenne_matiere_etudiant(matricule, code, niveau)
-
-			# On affiche la moyenne avant le coefficient
+		# Remplir le tableau des matières
+		for ligne in data.get("matieres", []):
+			code = ligne.get("code_matiere", "")
+			nom_matiere = ligne.get("nom_matiere", "")
+			moy = float(ligne.get("moyenne", 0.0) or 0.0)
+			coef = float(ligne.get("coefficient", 0.0) or 0.0)
 			self.table.insert("", "end", values=[code, nom_matiere, f"{moy:.2f}", f"{coef:.2f}"])
 
-			somme_coef += coef
-			somme_moy_x_coef += moy * coef
-
-		# Moyenne générale (via service pour cohérence)
-		moy_gen = self.moyenne_generale_service.calculer_moyenne_generale(matricule, niveau)
-
+		# Résumé en bas
+		somme_coef = float(data.get("somme_coef", 0.0) or 0.0)
+		moy_gen = float(data.get("moyenne_generale", 0.0) or 0.0)
 		self.label_somme_coef.config(text=f"Somme des coefficients : {somme_coef:.2f}")
 		self.label_moy_gen.config(text=f"Moyenne générale : {moy_gen:.2f}")
 
-		# Rang
-		rang, effectif = self.rang_service.calculer_rang(matricule, dept_index, niveau)
+		rang = data.get("rang")
+		effectif = int(data.get("effectif", 0) or 0)
 		if rang is None or effectif == 0:
 			self.label_rang.config(text="Rang : -")
 		else:
@@ -256,21 +230,11 @@ class BulletinView(tk.Frame):
 		self.label_moy_gen.config(text="Moyenne générale : 0.00")
 		self.label_rang.config(text="Rang : -")
 
-	def _get_departement_nom(self, index):
-		try:
-			deps = self.departement_controller.read_all()
-		except Exception:
-			deps = []
-		if isinstance(index, int) and 0 <= index < len(deps):
-			d = deps[index]
-			if isinstance(d, dict):
-				return d.get("nom_departement", "-")
-		return "-"
-
 	def _load_departements(self):
 		"""Charge les départements pour le filtre haut."""
+		# On utilise directement le contrôleur interne pour lire les départements
 		try:
-			deps = self.departement_controller.read_all()
+			deps = self.controller.departement_controller.read_all()
 		except Exception:
 			deps = []
 
@@ -294,38 +258,5 @@ class BulletinView(tk.Frame):
 		if current not in self.dept_choices:
 			self.dept_var.set("Tous")
 
-	def _get_matieres_pour_etudiant_et_niveau(self, matricule: str, niveau: str) -> set:
-		"""Renvoie l'ensemble des codes de matières pour un étudiant/niveau."""
-		try:
-			notes = self.note_controller.read_all()
-		except Exception:
-			notes = []
-
-		codes = set()
-		for n in notes:
-			if not isinstance(n, dict):
-				continue
-			if n.get("matricule") != matricule:
-				continue
-			if n.get("niveau") != niveau:
-				continue
-			code = n.get("code_matiere")
-			if code:
-				codes.add(code)
-		return codes
-
-	def _indexer_matieres(self) -> dict:
-		"""Construit un index {code_matiere: matiere_dict}."""
-		try:
-			matieres = self.matiere_controller.read_all()
-		except Exception:
-			matieres = []
-
-		index = {}
-		for m in matieres:
-			if not isinstance(m, dict):
-				continue
-			code = m.get("code_matiere")
-			if code:
-				index[code] = m
-		return index
+	# Les méthodes de calcul de bulletin (_get_matieres..., _indexer_matieres)
+	# ont été déplacées dans BulletinController pour centraliser la logique métier.
