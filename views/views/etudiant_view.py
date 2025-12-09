@@ -182,17 +182,20 @@ class EtudiantView(tk.Frame):
 		fields = ["matricule", "nom", "prenom", "niveau"]
 		entries = {}
 		for i, field in enumerate(fields):
-			tk.Label(form_frame, text=field.capitalize()).grid(row=i, column=0, sticky="w", padx=(0, 6), pady=4)
+			row_label = 2 * i
+			row_input = row_label + 1
+			# Label au-dessus du champ de saisie
+			tk.Label(form_frame, text=field.capitalize()).grid(row=row_label, column=0, sticky="w", padx=(0, 6), pady=(4, 0))
 
 			if field == "niveau":
 				var = tk.StringVar(value=data.get(field, ""))
 				cb = ttk.Combobox(form_frame, textvariable=var, values=self.NIVEAUX[1:], width=10, state="readonly")
-				cb.grid(row=i, column=1, pady=4)
+				cb.grid(row=row_input, column=0, sticky="w", pady=(0, 4))
 				entries[field] = var
 			else:
 				var = tk.StringVar(value=str(data.get(field, "")) if isinstance(data, dict) else "")
 				ent = tk.Entry(form_frame, textvariable=var, width=40)
-				ent.grid(row=i, column=1, pady=4)
+				ent.grid(row=row_input, column=0, sticky="we", pady=(0, 4))
 				entries[field] = var
 
 		btns = tk.Frame(top)

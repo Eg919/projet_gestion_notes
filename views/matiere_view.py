@@ -7,7 +7,7 @@ class MatiereView(CRUDView):
             "code_matiere",
             "nom_matiere",
             "coefficient",
-            "coefficient_cot",
+			"coefficient_cc",
             "coefficient_tp",
             "coefficient_ex"
         ]

@@ -19,7 +19,8 @@ class NoteView(tk.Frame):
 	"""
 
 	NIVEAUX = ["", "L1", "L2", "L3", "M1", "M2", "D"]
-	TYPE_EVAL = ["cot", "tp", "ex"]  # correspond aux coefficients cot/tp/ex de Matiere
+	# Types d'évaluation affichés à l'écran : CC, TP, EX
+	TYPE_EVAL = ["CC", "TP", "EX"]  # correspondent aux coefficients coefficient_cc / coefficient_tp / coefficient_ex de Matiere
 
 	def __init__(self, master):
 		super().__init__(master)
@@ -231,14 +232,33 @@ class NoteView(tk.Frame):
 			result.append(n)
 
 		for idx, item in enumerate(result):
-			values = [item.get(f, "") for f in self.fields]
-			self.table.insert("", "end", iid=str(idx), values=values)
+			row_values = []
+			for f in self.fields:
+				val = item.get(f, "")
+				if f == "typeEvaluation":
+					val = self._to_display_type(val)
+				row_values.append(val)
+			self.table.insert("", "end", iid=str(idx), values=row_values)
 
 		self._current_notes_filtered = result
 
 	# --- Callback sélection étudiant ---
 	def on_student_select(self):
 		self.refresh_notes()
+
+	def _to_display_type(self, raw_type: str) -> str:
+		"""Convertit les codes internes (cot/cc/tp/ex) en libellés d'affichage CC/TP/EX."""
+		if raw_type is None:
+			return ""
+		val = str(raw_type).strip()
+		low = val.lower()
+		if low in ("cot", "cc"):
+			return "CC"
+		if low == "tp":
+			return "TP"
+		if low == "ex":
+			return "EX"
+		return val
 
 	# --- CRUD Notes ---
 	def open_create_form(self):
@@ -280,7 +300,7 @@ class NoteView(tk.Frame):
 		form_frame.pack(padx=12, pady=12)
 
 		# Matière
-		tk.Label(form_frame, text="Matière").grid(row=0, column=0, sticky="w", padx=(0, 6), pady=4)
+		tk.Label(form_frame, text="Matière").grid(row=0, column=0, sticky="w", padx=(0, 6), pady=(4, 0))
 		matiere_var = tk.StringVar()
 		default_matiere = ""
 		if mode == "edit":
@@ -294,27 +314,28 @@ class NoteView(tk.Frame):
 			default_matiere = self.matiere_choices[0]
 		matiere_var.set(default_matiere)
 		matiere_cb = ttk.Combobox(form_frame, textvariable=matiere_var, values=self.matiere_choices, width=30, state="readonly")
-		matiere_cb.grid(row=0, column=1, pady=4)
+		matiere_cb.grid(row=1, column=0, sticky="we", pady=(0, 4))
 
-		# Type d'évaluation (lié aux coefficients cot/tp/ex de la matière)
-		tk.Label(form_frame, text="Type évaluation").grid(row=1, column=0, sticky="w", padx=(0, 6), pady=4)
-		default_type = data.get("typeEvaluation", "") if isinstance(data, dict) else ""
+		# Type d'évaluation (lié aux coefficients CC/TP/EX de la matière)
+		tk.Label(form_frame, text="Type évaluation").grid(row=2, column=0, sticky="w", padx=(0, 6), pady=(4, 0))
+		default_type_raw = data.get("typeEvaluation", "") if isinstance(data, dict) else ""
+		default_type = self._to_display_type(default_type_raw)
 		if default_type not in self.TYPE_EVAL:
 			default_type = self.TYPE_EVAL[0]
 		type_var = tk.StringVar(value=default_type)
 		type_cb = ttk.Combobox(form_frame, textvariable=type_var, values=self.TYPE_EVAL, width=10, state="readonly")
-		type_cb.grid(row=1, column=1, pady=4)
+		type_cb.grid(row=3, column=0, sticky="w", pady=(0, 4))
 
 		# Valeur de la note
-		tk.Label(form_frame, text="Note").grid(row=2, column=0, sticky="w", padx=(0, 6), pady=4)
+		tk.Label(form_frame, text="Note").grid(row=4, column=0, sticky="w", padx=(0, 6), pady=(4, 0))
 		valeur_var = tk.StringVar(value=str(data.get("valeur", "")))
 		valeur_ent = tk.Entry(form_frame, textvariable=valeur_var, width=10)
-		valeur_ent.grid(row=2, column=1, sticky="w", pady=4)
+		valeur_ent.grid(row=5, column=0, sticky="w", pady=(0, 4))
 
 		# Niveau (affiché en lecture seule)
 		niveau_etud = student.get("niveau", "")
-		tk.Label(form_frame, text="Niveau étudiant").grid(row=3, column=0, sticky="w", padx=(0, 6), pady=4)
-		tk.Label(form_frame, text=niveau_etud).grid(row=3, column=1, sticky="w", pady=4)
+		tk.Label(form_frame, text="Niveau étudiant").grid(row=6, column=0, sticky="w", padx=(0, 6), pady=(4, 0))
+		tk.Label(form_frame, text=niveau_etud).grid(row=7, column=0, sticky="w", pady=(0, 4))
 
 		btns = tk.Frame(top)
 		btns.pack(pady=(0, 12))

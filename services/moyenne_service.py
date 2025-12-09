@@ -19,9 +19,9 @@ class MoyenneService:
 		Formule :
 		  somme( note * coefficient_type ) / somme( coefficient_type )
 		où coefficient_type dépend de typeEvaluation :
-		  - "cot" -> coefficient_cot
-		  - "tp"  -> coefficient_tp
-		  - "ex"  -> coefficient_ex
+		  - "CC" ou "cot" -> coefficient_cc (anciennement coefficient_cot)
+		  - "TP"           -> coefficient_tp
+		  - "EX"           -> coefficient_ex
 
 		Retourne 0.0 si aucune note correspondante ou si la somme des
 		coefficients est nulle.
@@ -42,7 +42,12 @@ class MoyenneService:
 		if not matiere_data:
 			return 0.0
 
-		coef_cot = float(matiere_data.get("coefficient_cot", 0.0) or 0.0)
+		# Compatibilité : accepter encore l'ancien champ "coefficient_cot"
+		coef_cc = float(
+			matiere_data.get("coefficient_cc",
+						 matiere_data.get("coefficient_cot", 0.0))
+			or 0.0
+		)
 		coef_tp = float(matiere_data.get("coefficient_tp", 0.0) or 0.0)
 		coef_ex = float(matiere_data.get("coefficient_ex", 0.0) or 0.0)
 
@@ -68,8 +73,9 @@ class MoyenneService:
 			valeur = float(n.get("valeur", 0.0) or 0.0)
 			type_eval = n.get("typeEvaluation", "").lower()
 
-			if type_eval == "cot":
-				coef = coef_cot
+			# Accepter les anciens codes ("cot") et les nouveaux ("CC")
+			if type_eval in ("cot", "cc"):
+				coef = coef_cc
 			elif type_eval == "tp":
 				coef = coef_tp
 			elif type_eval == "ex":

@@ -83,10 +83,13 @@ class CRUDView(tk.Frame):
 
         entries = {}
         for i, field in enumerate(self.fields):
-            tk.Label(form_frame, text=field).grid(row=i, column=0, sticky="w", padx=(0,6), pady=4)
+            row_label = 2 * i
+            row_entry = row_label + 1
+            # Label au-dessus du champ de saisie
+            tk.Label(form_frame, text=field).grid(row=row_label, column=0, sticky="w", padx=(0,6), pady=(4, 0))
             var = tk.StringVar(value=str(data.get(field, "")) if isinstance(data, dict) else "")
             ent = tk.Entry(form_frame, textvariable=var, width=40)
-            ent.grid(row=i, column=1, pady=4)
+            ent.grid(row=row_entry, column=0, sticky="we", pady=(0, 4))
             entries[field] = var
 
         btns = tk.Frame(top)
@@ -108,7 +111,12 @@ class CRUDView(tk.Frame):
         tk.Button(btns, text="Annuler", command=top.destroy).pack(side=tk.LEFT)
 
         # Centrer le formulaire
-        self.center_window(top, 480, (len(self.fields) * 30) + 140)
+        height = (len(self.fields) * 30) + 140
+        # Pour les formulaires avec beaucoup de champs (ex : matières),
+        # on ajoute de la hauteur pour plus de confort.
+        if len(self.fields) >= 6:
+            height += 120
+        self.center_window(top, 480, height)
         top.wait_window(top)
 
     # --- Supprimer un élément ---
