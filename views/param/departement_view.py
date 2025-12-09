@@ -1,6 +1,6 @@
 import tkinter as tk
 from controllers.departement_controller import DepartementController
-from views.template_view import CRUDView
+from views.param.template_view import CRUDView
 
 class DepartementView(CRUDView):
     def __init__(self, master):

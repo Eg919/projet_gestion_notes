@@ -70,5 +70,50 @@
         "matricule": "156",
         "code_matiere": "CHM101",
         "nom_matiere": "Chimie"
+    },
+    {
+        "idNote": 9,
+        "valeur": 16.0,
+        "typeEvaluation": "CC",
+        "niveau": "L1",
+        "matricule": "215",
+        "code_matiere": "PHY101",
+        "nom_matiere": "Physique"
+    },
+    {
+        "idNote": 10,
+        "valeur": 18.0,
+        "typeEvaluation": "CC",
+        "niveau": "L1",
+        "matricule": "215",
+        "code_matiere": "CHM101",
+        "nom_matiere": "Chimie"
+    },
+    {
+        "idNote": 11,
+        "valeur": 19.0,
+        "typeEvaluation": "TP",
+        "niveau": "L1",
+        "matricule": "215",
+        "code_matiere": "PHY101",
+        "nom_matiere": "Physique"
+    },
+    {
+        "idNote": 12,
+        "valeur": 17.0,
+        "typeEvaluation": "EX",
+        "niveau": "L1",
+        "matricule": "215",
+        "code_matiere": "PHY101",
+        "nom_matiere": "Physique"
+    },
+    {
+        "idNote": 13,
+        "valeur": 13.0,
+        "typeEvaluation": "EX",
+        "niveau": "L1",
+        "matricule": "215",
+        "code_matiere": "CHM101",
+        "nom_matiere": "Chimie"
     }
 ]

@@ -1,4 +1,4 @@
-from views.template_view import CRUDView
+from views.param.template_view import CRUDView
 from controllers.matiere_controller import MatiereController
 
 class MatiereView(CRUDView):

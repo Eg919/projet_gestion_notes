@@ -2,11 +2,11 @@ import tkinter as tk
 from tkinter import ttk
 
 # Import des vues
-from views.departement_view import DepartementView
-from views.matiere_view import MatiereView
-from views.views.etudiant_view import EtudiantView
-from views.views.note_view import NoteView
-from views.views.bulletin_view import BulletinView
+from views.param.departement_view import DepartementView
+from views.param.matiere_view import MatiereView
+from views.param.etudiant_view import EtudiantView
+from views.note_view import NoteView
+from views.bulletin_view import BulletinView
 from views.connexion_view import ConnexionView
 
 
