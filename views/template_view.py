@@ -25,7 +25,10 @@ class CRUDView(tk.Frame):
         self.del_btn.pack(side=tk.LEFT)
 
         # --- Table principale ---
-        self.table = ttk.Treeview(self, columns=self.fields, show="headings")
+        # Style avec entêtes en gras (pas de bordures spéciales pour éviter les erreurs)
+        style = ttk.Style()
+        style.configure("Crud.Treeview.Heading", font=("TkDefaultFont", 10, "bold"))
+        self.table = ttk.Treeview(self, columns=self.fields, show="headings", style="Crud.Treeview")
         for f in self.fields:
             self.table.heading(f, text=f)
             self.table.column(f, width=120, anchor="center")

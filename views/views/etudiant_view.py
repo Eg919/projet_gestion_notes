@@ -75,7 +75,10 @@ class EtudiantView(tk.Frame):
 		tk.Label(right_frame, text="Étudiants", anchor="w").pack(fill=tk.X, padx=6, pady=4)
 
 		self.fields = ["matricule", "nom", "prenom", "niveau"]
-		self.table = ttk.Treeview(right_frame, columns=self.fields, show="headings")
+		# Style pour avoir les entêtes en gras (sans bordures spéciales)
+		style = ttk.Style()
+		style.configure("Etudiant.Treeview.Heading", font=("TkDefaultFont", 10, "bold"))
+		self.table = ttk.Treeview(right_frame, columns=self.fields, show="headings", style="Etudiant.Treeview")
 		for f in self.fields:
 			self.table.heading(f, text=f.capitalize())
 			self.table.column(f, width=120, anchor="center")

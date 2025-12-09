@@ -4,6 +4,7 @@ from tkinter import ttk, messagebox
 from controllers.etudiant_controller import EtudiantController
 from controllers.matiere_controller import MatiereController
 from controllers.note_controller import NoteController
+from controllers.departement_controller import DepartementController
 
 
 class NoteView(tk.Frame):
@@ -27,6 +28,7 @@ class NoteView(tk.Frame):
 		self.etudiant_controller = EtudiantController()
 		self.matiere_controller = MatiereController()
 		self.note_controller = NoteController()
+		self.departement_controller = DepartementController()
 
 		self.all_students = []
 		self.filtered_students = []
@@ -50,12 +52,20 @@ class NoteView(tk.Frame):
 		self.del_btn = tk.Button(top_bar, text="Supprimer", command=self.delete_note)
 		self.del_btn.pack(side=tk.LEFT, padx=(0, 12))
 
-		# Filtre par niveau (pour la liste d'étudiants)
-		tk.Label(top_bar, text="Filtrer les étudiants par niveau :").pack(side=tk.LEFT)
+		# Filtres niveau + département pour la liste d'étudiants
+		tk.Label(top_bar, text="Niveau :").pack(side=tk.LEFT)
 		self.level_var = tk.StringVar(value="")
 		level_cb = ttk.Combobox(top_bar, textvariable=self.level_var, values=self.NIVEAUX, width=8, state="readonly")
-		level_cb.pack(side=tk.LEFT, padx=(4, 0))
+		level_cb.pack(side=tk.LEFT, padx=(4, 8))
 		level_cb.bind("<<ComboboxSelected>>", lambda e: self.refresh_students_list())
+
+		tk.Label(top_bar, text="Département :").pack(side=tk.LEFT)
+		self.dept_var = tk.StringVar(value="Tous")
+		self.dept_choices = ["Tous"]
+		self.dept_display_to_index = {}
+		self.dept_cb = ttk.Combobox(top_bar, textvariable=self.dept_var, values=self.dept_choices, width=18, state="readonly")
+		self.dept_cb.pack(side=tk.LEFT, padx=(4, 0))
+		self.dept_cb.bind("<<ComboboxSelected>>", lambda e: self.refresh_students_list())
 
 		# --- Zone centrale avec 2 colonnes ---
 		center = tk.Frame(self)
@@ -82,7 +92,10 @@ class NoteView(tk.Frame):
 		tk.Label(right_frame, text="Notes de l'étudiant", anchor="w").pack(fill=tk.X, padx=6, pady=4)
 
 		self.fields = ["nom_matiere", "typeEvaluation", "valeur", "niveau"]
-		self.table = ttk.Treeview(right_frame, columns=self.fields, show="headings")
+		# Style pour avoir les entêtes en gras (sans bordures spéciales)
+		style = ttk.Style()
+		style.configure("Note.Treeview.Heading", font=("TkDefaultFont", 10, "bold"))
+		self.table = ttk.Treeview(right_frame, columns=self.fields, show="headings", style="Note.Treeview")
 		for f in self.fields:
 			if f == "nom_matiere":
 				head = "Matière"
@@ -98,6 +111,7 @@ class NoteView(tk.Frame):
 
 		# Charger les données
 		self.load_matieres()
+		self.load_departements()
 		self.refresh_students_list()
 		self.refresh_notes()
 
@@ -121,6 +135,33 @@ class NoteView(tk.Frame):
 			self.matiere_choices.append(label)
 			self.matiere_display_to_data[label] = {"code_matiere": code, "nom_matiere": nom}
 
+	def load_departements(self):
+		"""Charge les départements pour le filtre haut."""
+		try:
+			deps = self.departement_controller.read_all()
+		except Exception:
+			deps = []
+
+		self.dept_choices = ["Tous"]
+		self.dept_display_to_index = {}
+		for idx, d in enumerate(deps):
+			if isinstance(d, dict):
+				nom = d.get("nom_departement", "")
+			else:
+				nom = str(d)
+			label = nom or f"Département {idx+1}"
+			self.dept_choices.append(label)
+			self.dept_display_to_index[label] = idx
+
+		# Mettre à jour les valeurs de la combobox
+		if hasattr(self, "dept_cb"):
+			self.dept_cb["values"] = self.dept_choices
+
+		# S'assurer que la valeur sélectionnée est valide
+		current = self.dept_var.get()
+		if current not in self.dept_choices:
+			self.dept_var.set("Tous")
+
 	# --- Chargement de la liste d'étudiants (gauche) ---
 	def refresh_students_list(self):
 		self.student_listbox.delete(0, tk.END)
@@ -131,12 +172,16 @@ class NoteView(tk.Frame):
 			self.all_students = []
 
 		selected_level = self.level_var.get() or ""
+		selected_dept_label = getattr(self, "dept_var", None).get() if hasattr(self, "dept_var") else "Tous"
+		selected_dept_index = self.dept_display_to_index.get(selected_dept_label) if hasattr(self, "dept_display_to_index") else None
 
 		self.filtered_students = []
 		for e in self.all_students:
 			if not isinstance(e, dict):
 				continue
 			if selected_level and e.get("niveau") != selected_level:
+				continue
+			if selected_dept_index is not None and e.get("departement_index") != selected_dept_index:
 				continue
 			self.filtered_students.append(e)
 			mat = e.get("matricule", "")

@@ -14,13 +14,5 @@
         "coefficient_cot": 1.0,
         "coefficient_tp": 1.0,
         "coefficient_ex": 1.5
-    },
-    {
-        "code_matiere": "hj55",
-        "nom_matiere": "rrtyytuy",
-        "coefficient": "2",
-        "coefficient_cot": "2",
-        "coefficient_tp": "1",
-        "coefficient_ex": "6"
     }
 ]

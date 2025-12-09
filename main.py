@@ -6,6 +6,7 @@ from views.departement_view import DepartementView
 from views.matiere_view import MatiereView
 from views.views.etudiant_view import EtudiantView
 from views.views.note_view import NoteView
+from views.views.bulletin_view import BulletinView
 
 # --- Création de la fenêtre principale ---
 root = tk.Tk()
@@ -39,14 +40,21 @@ notebook.add(etudiant_tab, text="Étudiants")
 note_tab = NoteView(notebook)
 notebook.add(note_tab, text="Notes")
 
+# Onglet Bulletin
+bulletin_tab = BulletinView(notebook)
+notebook.add(bulletin_tab, text="Bulletin")
+
 
 # Rafraîchir certaines vues lors du changement d'onglet
 def on_tab_changed(event):
 	selected = event.widget.select()
 	tab = event.widget.nametowidget(selected)
-	# Quand on arrive sur l'onglet Notes, recharger la liste des étudiants
+	# Quand on arrive sur l'onglet Notes ou Bulletin, recharger la liste des étudiants
 	if tab is note_tab:
 		note_tab.refresh_students_list()
+	elif tab is bulletin_tab:
+		bulletin_tab.refresh_students_list()
+		bulletin_tab.refresh_bulletin()
 
 
 notebook.bind("<<NotebookTabChanged>>", on_tab_changed)
