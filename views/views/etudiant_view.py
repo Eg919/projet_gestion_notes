@@ -3,6 +3,7 @@ from tkinter import ttk, messagebox
 
 from controllers.departement_controller import DepartementController
 from controllers.etudiant_controller import EtudiantController
+from controllers.note_controller import NoteController
 from views.template_view import CRUDView
 
 
@@ -25,6 +26,7 @@ class EtudiantView(tk.Frame):
 
 		self.departement_controller = DepartementController()
 		self.etudiant_controller = EtudiantController()
+		self.note_controller = NoteController()
 
 		self.selected_departement_index = None
 
@@ -245,8 +247,33 @@ class EtudiantView(tk.Frame):
 			global_idx = None
 
 		if global_idx is not None:
-			del all_students[global_idx]
-			self.etudiant_controller.write_all(all_students)
+			# Conserver le matricule pour supprimer aussi les notes associées
+			student = all_students[global_idx]
+			matricule = student.get("matricule", "") if isinstance(student, dict) else ""
+
+			# Supprimer l'étudiant via le contrôleur
+			self.etudiant_controller.delete(global_idx)
+
+			# Suppression en cascade des notes de cet étudiant
+			try:
+				all_notes = self.note_controller.read_all()
+			except Exception:
+				all_notes = []
+
+			if matricule:
+				new_notes = []
+				for n in all_notes:
+					if not isinstance(n, dict):
+						new_notes.append(n)
+						continue
+					if n.get("matricule") != matricule:
+						new_notes.append(n)
+
+				# Mettre à jour le fichier des notes uniquement si nécessaire
+				if len(new_notes) != len(all_notes):
+					self.note_controller.data = new_notes
+					self.note_controller.save()
+
 			self.refresh_students()
 
 	# --- Centrage fenêtre (repris de CRUDView) ---
