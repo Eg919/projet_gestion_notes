@@ -28,6 +28,11 @@ class BaseController:
         self.save()
 
     def read_all(self):
+        # Toujours recharger le fichier pour que toutes les vues
+        # voient les données les plus récentes (créations/modifications
+        # faites depuis un autre onglet, par exemple les étudiants
+        # utilisés dans l'onglet Notes).
+        self.data = self.load()
         return self.data
 
     def update(self, index, new_data):

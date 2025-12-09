@@ -5,5 +5,26 @@
         "prenom": "sie",
         "niveau": "L1",
         "departement_index": 0
+    },
+    {
+        "matricule": "2103",
+        "nom": "sie",
+        "prenom": "da",
+        "niveau": "L1",
+        "departement_index": 1
+    },
+    {
+        "matricule": "215",
+        "nom": "hien",
+        "prenom": "sansan",
+        "niveau": "L1",
+        "departement_index": 2
+    },
+    {
+        "matricule": "156",
+        "nom": "dico",
+        "prenom": "ali",
+        "niveau": "L1",
+        "departement_index": 3
     }
 ]
