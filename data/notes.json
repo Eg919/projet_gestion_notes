@@ -1,0 +1,56 @@
+[
+    {
+        "idNote": 1,
+        "valeur": 12.0,
+        "typeEvaluation": "cot",
+        "niveau": "L1",
+        "matricule": "21001",
+        "code_matiere": "PHY101",
+        "nom_matiere": "Physique"
+    },
+    {
+        "idNote": 2,
+        "valeur": 15.0,
+        "typeEvaluation": "tp",
+        "niveau": "L1",
+        "matricule": "21001",
+        "code_matiere": "PHY101",
+        "nom_matiere": "Physique"
+    },
+    {
+        "idNote": 3,
+        "valeur": 14.0,
+        "typeEvaluation": "ex",
+        "niveau": "L1",
+        "matricule": "21001",
+        "code_matiere": "PHY101",
+        "nom_matiere": "Physique"
+    },
+    {
+        "idNote": 4,
+        "valeur": 17.0,
+        "typeEvaluation": "cot",
+        "niveau": "L1",
+        "matricule": "21001",
+        "code_matiere": "CHM101",
+        "nom_matiere": "Chimie"
+    },
+    {
+        "idNote": 5,
+        "valeur": 19.0,
+        "typeEvaluation": "tp",
+        "niveau": "L1",
+        "matricule": "21001",
+        "code_matiere": "PHY101",
+        "nom_matiere": "Physique"
+    },
+    {
+        "idNote": 6,
+        "valeur": 12.0,
+        "typeEvaluation": "cot",
+        "niveau": "L1",
+        "matricule": "21001",
+        "code_matiere": "hj55",
+        "nom_matiere": "rrtyytuy"
+    }
+]

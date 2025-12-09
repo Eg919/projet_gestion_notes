@@ -1,1 +1,9 @@
-[]
+[
+    {
+        "matricule": "21001",
+        "nom": "da",
+        "prenom": "sie",
+        "niveau": "L1",
+        "departement_index": 0
+    }
+]
