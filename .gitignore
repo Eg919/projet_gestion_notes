@@ -1,0 +1,13 @@
+# Identifiants de connexion (ne pas versionner)
+config/credentials.json
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.so
+.venv/
+venv/
+env/

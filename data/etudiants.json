@@ -1,30 +1,93 @@
 [
     {
-        "matricule": "21001",
-        "nom": "da",
-        "prenom": "sie",
+        "matricule": "26SEG001",
+        "nom": "Ouédraogo",
+        "prenom": "Fatima",
         "niveau": "L1",
         "departement_index": 0
     },
     {
-        "matricule": "2103",
-        "nom": "sie",
-        "prenom": "da",
+        "matricule": "26SEG002",
+        "nom": "Sawadogo",
+        "prenom": "Ibrahim",
+        "niveau": "L1",
+        "departement_index": 0
+    },
+    {
+        "matricule": "26SEA001",
+        "nom": "Kaboré",
+        "prenom": "Aïssata",
         "niveau": "L1",
         "departement_index": 1
     },
     {
-        "matricule": "215",
-        "nom": "hien",
-        "prenom": "sansan",
+        "matricule": "26SEA002",
+        "nom": "Compaoré",
+        "prenom": "Moussa",
+        "niveau": "L1",
+        "departement_index": 1
+    },
+    {
+        "matricule": "26SEA003",
+        "nom": "Zoungrana",
+        "prenom": "Aminata",
+        "niveau": "L2",
+        "departement_index": 1
+    },
+    {
+        "matricule": "26UFR-SEA001",
+        "nom": "Ouattara",
+        "prenom": "Abdoul",
         "niveau": "L1",
         "departement_index": 2
     },
     {
-        "matricule": "156",
-        "nom": "dico",
-        "prenom": "ali",
+        "matricule": "26UFR-SEA002",
+        "nom": "Kiénou",
+        "prenom": "Salamata",
+        "niveau": "L1",
+        "departement_index": 2
+    },
+    {
+        "matricule": "26UFR-SEA003",
+        "nom": "Bado",
+        "prenom": "Jean-Baptiste",
+        "niveau": "L2",
+        "departement_index": 2
+    },
+    {
+        "matricule": "26DSP001",
+        "nom": "Traoré",
+        "prenom": "Boureima",
         "niveau": "L1",
         "departement_index": 3
+    },
+    {
+        "matricule": "26LASH001",
+        "nom": "Sanogo",
+        "prenom": "Mariam",
+        "niveau": "L1",
+        "departement_index": 4
+    },
+    {
+        "matricule": "26SVT001",
+        "nom": "Diallo",
+        "prenom": "Oumar",
+        "niveau": "L1",
+        "departement_index": 5
+    },
+    {
+        "matricule": "26UFR-SEA004",
+        "nom": "Da",
+        "prenom": "Sié Egis",
+        "niveau": "M1",
+        "departement_index": 2
+    },
+    {
+        "matricule": "26UFR-SEA005",
+        "nom": "SOME",
+        "prenom": "Titèguèdem Félix",
+        "niveau": "M1",
+        "departement_index": 2
     }
 ]

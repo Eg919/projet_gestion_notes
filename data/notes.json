@@ -1,119 +1,488 @@
 [
     {
         "idNote": 1,
-        "valeur": 12.0,
-        "typeEvaluation": "cot",
+        "valeur": 14.0,
+        "typeEvaluation": "cc",
         "niveau": "L1",
-        "matricule": "21001",
-        "code_matiere": "PHY101",
-        "nom_matiere": "Physique"
+        "matricule": "26SEG001",
+        "code_matiere": "ECON101",
+        "nom_matiere": "Principes de microéconomie"
     },
     {
         "idNote": 2,
-        "valeur": 15.0,
-        "typeEvaluation": "tp",
+        "valeur": 12.5,
+        "typeEvaluation": "ex",
         "niveau": "L1",
-        "matricule": "21001",
-        "code_matiere": "PHY101",
-        "nom_matiere": "Physique"
+        "matricule": "26SEG001",
+        "code_matiere": "ECON101",
+        "nom_matiere": "Principes de microéconomie"
     },
     {
         "idNote": 3,
-        "valeur": 14.0,
-        "typeEvaluation": "ex",
+        "valeur": 15.0,
+        "typeEvaluation": "cc",
         "niveau": "L1",
-        "matricule": "21001",
-        "code_matiere": "PHY101",
-        "nom_matiere": "Physique"
+        "matricule": "26SEG002",
+        "code_matiere": "ECON101",
+        "nom_matiere": "Principes de microéconomie"
     },
     {
         "idNote": 4,
-        "valeur": 17.0,
-        "typeEvaluation": "cot",
+        "valeur": 13.0,
+        "typeEvaluation": "ex",
         "niveau": "L1",
-        "matricule": "21001",
-        "code_matiere": "CHM101",
-        "nom_matiere": "Chimie"
+        "matricule": "26SEG002",
+        "code_matiere": "ECON101",
+        "nom_matiere": "Principes de microéconomie"
     },
     {
         "idNote": 5,
-        "valeur": 19.0,
-        "typeEvaluation": "tp",
+        "valeur": 16.0,
+        "typeEvaluation": "cc",
         "niveau": "L1",
-        "matricule": "21001",
-        "code_matiere": "PHY101",
-        "nom_matiere": "Physique"
+        "matricule": "26SEA001",
+        "code_matiere": "MATH101",
+        "nom_matiere": "Algèbre et Analyse 1"
     },
     {
         "idNote": 6,
-        "valeur": 12.0,
-        "typeEvaluation": "cot",
+        "valeur": 14.0,
+        "typeEvaluation": "tp",
         "niveau": "L1",
-        "matricule": "21001",
-        "code_matiere": "hj55",
-        "nom_matiere": "rrtyytuy"
+        "matricule": "26SEA001",
+        "code_matiere": "MATH101",
+        "nom_matiere": "Algèbre et Analyse 1"
     },
     {
         "idNote": 7,
-        "valeur": 13.0,
-        "typeEvaluation": "CC",
+        "valeur": 15.5,
+        "typeEvaluation": "ex",
         "niveau": "L1",
-        "matricule": "156",
-        "code_matiere": "PHY101",
-        "nom_matiere": "Physique"
+        "matricule": "26SEA001",
+        "code_matiere": "MATH101",
+        "nom_matiere": "Algèbre et Analyse 1"
     },
     {
         "idNote": 8,
-        "valeur": 14.0,
-        "typeEvaluation": "CC",
+        "valeur": 12.0,
+        "typeEvaluation": "cc",
         "niveau": "L1",
-        "matricule": "156",
-        "code_matiere": "CHM101",
-        "nom_matiere": "Chimie"
+        "matricule": "26SEA001",
+        "code_matiere": "PHY101",
+        "nom_matiere": "Physique générale"
     },
     {
         "idNote": 9,
-        "valeur": 16.0,
-        "typeEvaluation": "CC",
+        "valeur": 17.0,
+        "typeEvaluation": "tp",
         "niveau": "L1",
-        "matricule": "215",
+        "matricule": "26SEA001",
         "code_matiere": "PHY101",
-        "nom_matiere": "Physique"
+        "nom_matiere": "Physique générale"
     },
     {
         "idNote": 10,
-        "valeur": 18.0,
-        "typeEvaluation": "CC",
+        "valeur": 14.0,
+        "typeEvaluation": "ex",
         "niveau": "L1",
-        "matricule": "215",
-        "code_matiere": "CHM101",
-        "nom_matiere": "Chimie"
+        "matricule": "26SEA001",
+        "code_matiere": "PHY101",
+        "nom_matiere": "Physique générale"
     },
     {
         "idNote": 11,
-        "valeur": 19.0,
-        "typeEvaluation": "TP",
+        "valeur": 15.0,
+        "typeEvaluation": "cc",
         "niveau": "L1",
-        "matricule": "215",
-        "code_matiere": "PHY101",
-        "nom_matiere": "Physique"
+        "matricule": "26SEA001",
+        "code_matiere": "INFO101",
+        "nom_matiere": "Introduction à la programmation"
     },
     {
         "idNote": 12,
-        "valeur": 17.0,
-        "typeEvaluation": "EX",
+        "valeur": 18.0,
+        "typeEvaluation": "tp",
         "niveau": "L1",
-        "matricule": "215",
-        "code_matiere": "PHY101",
-        "nom_matiere": "Physique"
+        "matricule": "26SEA001",
+        "code_matiere": "INFO101",
+        "nom_matiere": "Introduction à la programmation"
     },
     {
         "idNote": 13,
         "valeur": 13.0,
-        "typeEvaluation": "EX",
+        "typeEvaluation": "ex",
         "niveau": "L1",
-        "matricule": "215",
-        "code_matiere": "CHM101",
-        "nom_matiere": "Chimie"
+        "matricule": "26SEA001",
+        "code_matiere": "INFO101",
+        "nom_matiere": "Introduction à la programmation"
+    },
+    {
+        "idNote": 14,
+        "valeur": 11.0,
+        "typeEvaluation": "cc",
+        "niveau": "L1",
+        "matricule": "26SEA002",
+        "code_matiere": "MATH101",
+        "nom_matiere": "Algèbre et Analyse 1"
+    },
+    {
+        "idNote": 15,
+        "valeur": 14.0,
+        "typeEvaluation": "ex",
+        "niveau": "L1",
+        "matricule": "26SEA002",
+        "code_matiere": "MATH101",
+        "nom_matiere": "Algèbre et Analyse 1"
+    },
+    {
+        "idNote": 16,
+        "valeur": 13.5,
+        "typeEvaluation": "cc",
+        "niveau": "L1",
+        "matricule": "26SEA002",
+        "code_matiere": "PHY101",
+        "nom_matiere": "Physique générale"
+    },
+    {
+        "idNote": 17,
+        "valeur": 15.0,
+        "typeEvaluation": "ex",
+        "niveau": "L1",
+        "matricule": "26SEA002",
+        "code_matiere": "PHY101",
+        "nom_matiere": "Physique générale"
+    },
+    {
+        "idNote": 18,
+        "valeur": 16.0,
+        "typeEvaluation": "cc",
+        "niveau": "L2",
+        "matricule": "26SEA003",
+        "code_matiere": "MATH102",
+        "nom_matiere": "Algèbre linéaire"
+    },
+    {
+        "idNote": 19,
+        "valeur": 15.0,
+        "typeEvaluation": "ex",
+        "niveau": "L2",
+        "matricule": "26SEA003",
+        "code_matiere": "MATH102",
+        "nom_matiere": "Algèbre linéaire"
+    },
+    {
+        "idNote": 20,
+        "valeur": 15.0,
+        "typeEvaluation": "cc",
+        "niveau": "L1",
+        "matricule": "26UFR-SEA001",
+        "code_matiere": "INFO101",
+        "nom_matiere": "Introduction à la programmation"
+    },
+    {
+        "idNote": 21,
+        "valeur": 17.0,
+        "typeEvaluation": "tp",
+        "niveau": "L1",
+        "matricule": "26UFR-SEA001",
+        "code_matiere": "INFO101",
+        "nom_matiere": "Introduction à la programmation"
+    },
+    {
+        "idNote": 22,
+        "valeur": 14.0,
+        "typeEvaluation": "ex",
+        "niveau": "L1",
+        "matricule": "26UFR-SEA001",
+        "code_matiere": "INFO101",
+        "nom_matiere": "Introduction à la programmation"
+    },
+    {
+        "idNote": 23,
+        "valeur": 13.0,
+        "typeEvaluation": "cc",
+        "niveau": "L1",
+        "matricule": "26UFR-SEA001",
+        "code_matiere": "MATH101",
+        "nom_matiere": "Algèbre et Analyse 1"
+    },
+    {
+        "idNote": 24,
+        "valeur": 15.0,
+        "typeEvaluation": "ex",
+        "niveau": "L1",
+        "matricule": "26UFR-SEA001",
+        "code_matiere": "MATH101",
+        "nom_matiere": "Algèbre et Analyse 1"
+    },
+    {
+        "idNote": 25,
+        "valeur": 14.0,
+        "typeEvaluation": "cc",
+        "niveau": "L1",
+        "matricule": "26UFR-SEA001",
+        "code_matiere": "PHY101",
+        "nom_matiere": "Physique générale"
+    },
+    {
+        "idNote": 26,
+        "valeur": 16.0,
+        "typeEvaluation": "ex",
+        "niveau": "L1",
+        "matricule": "26UFR-SEA001",
+        "code_matiere": "PHY101",
+        "nom_matiere": "Physique générale"
+    },
+    {
+        "idNote": 27,
+        "valeur": 16.0,
+        "typeEvaluation": "cc",
+        "niveau": "L1",
+        "matricule": "26UFR-SEA002",
+        "code_matiere": "INFO101",
+        "nom_matiere": "Introduction à la programmation"
+    },
+    {
+        "idNote": 28,
+        "valeur": 15.0,
+        "typeEvaluation": "tp",
+        "niveau": "L1",
+        "matricule": "26UFR-SEA002",
+        "code_matiere": "INFO101",
+        "nom_matiere": "Introduction à la programmation"
+    },
+    {
+        "idNote": 29,
+        "valeur": 14.0,
+        "typeEvaluation": "ex",
+        "niveau": "L1",
+        "matricule": "26UFR-SEA002",
+        "code_matiere": "INFO101",
+        "nom_matiere": "Introduction à la programmation"
+    },
+    {
+        "idNote": 30,
+        "valeur": 12.0,
+        "typeEvaluation": "cc",
+        "niveau": "L1",
+        "matricule": "26UFR-SEA002",
+        "code_matiere": "MATH101",
+        "nom_matiere": "Algèbre et Analyse 1"
+    },
+    {
+        "idNote": 31,
+        "valeur": 13.5,
+        "typeEvaluation": "ex",
+        "niveau": "L1",
+        "matricule": "26UFR-SEA002",
+        "code_matiere": "MATH101",
+        "nom_matiere": "Algèbre et Analyse 1"
+    },
+    {
+        "idNote": 32,
+        "valeur": 14.0,
+        "typeEvaluation": "cc",
+        "niveau": "L2",
+        "matricule": "26UFR-SEA003",
+        "code_matiere": "MATH102",
+        "nom_matiere": "Algèbre linéaire"
+    },
+    {
+        "idNote": 33,
+        "valeur": 16.0,
+        "typeEvaluation": "ex",
+        "niveau": "L2",
+        "matricule": "26UFR-SEA003",
+        "code_matiere": "MATH102",
+        "nom_matiere": "Algèbre linéaire"
+    },
+    {
+        "idNote": 34,
+        "valeur": 12.0,
+        "typeEvaluation": "cc",
+        "niveau": "L1",
+        "matricule": "26DSP001",
+        "code_matiere": "DROIT101",
+        "nom_matiere": "Introduction au droit"
+    },
+    {
+        "idNote": 35,
+        "valeur": 14.5,
+        "typeEvaluation": "ex",
+        "niveau": "L1",
+        "matricule": "26DSP001",
+        "code_matiere": "DROIT101",
+        "nom_matiere": "Introduction au droit"
+    },
+    {
+        "idNote": 36,
+        "valeur": 13.0,
+        "typeEvaluation": "cc",
+        "niveau": "L1",
+        "matricule": "26DSP001",
+        "code_matiere": "ECON101",
+        "nom_matiere": "Principes de microéconomie"
+    },
+    {
+        "idNote": 37,
+        "valeur": 11.5,
+        "typeEvaluation": "ex",
+        "niveau": "L1",
+        "matricule": "26DSP001",
+        "code_matiere": "ECON101",
+        "nom_matiere": "Principes de microéconomie"
+    },
+    {
+        "idNote": 38,
+        "valeur": 14.0,
+        "typeEvaluation": "cc",
+        "niveau": "L1",
+        "matricule": "26LASH001",
+        "code_matiere": "DROIT101",
+        "nom_matiere": "Introduction au droit"
+    },
+    {
+        "idNote": 39,
+        "valeur": 15.0,
+        "typeEvaluation": "ex",
+        "niveau": "L1",
+        "matricule": "26LASH001",
+        "code_matiere": "DROIT101",
+        "nom_matiere": "Introduction au droit"
+    },
+    {
+        "idNote": 40,
+        "valeur": 12.5,
+        "typeEvaluation": "cc",
+        "niveau": "L1",
+        "matricule": "26LASH001",
+        "code_matiere": "ECON101",
+        "nom_matiere": "Principes de microéconomie"
+    },
+    {
+        "idNote": 41,
+        "valeur": 13.0,
+        "typeEvaluation": "ex",
+        "niveau": "L1",
+        "matricule": "26LASH001",
+        "code_matiere": "ECON101",
+        "nom_matiere": "Principes de microéconomie"
+    },
+    {
+        "idNote": 42,
+        "valeur": 15.0,
+        "typeEvaluation": "cc",
+        "niveau": "L1",
+        "matricule": "26SVT001",
+        "code_matiere": "MATH101",
+        "nom_matiere": "Algèbre et Analyse 1"
+    },
+    {
+        "idNote": 43,
+        "valeur": 14.0,
+        "typeEvaluation": "ex",
+        "niveau": "L1",
+        "matricule": "26SVT001",
+        "code_matiere": "MATH101",
+        "nom_matiere": "Algèbre et Analyse 1"
+    },
+    {
+        "idNote": 44,
+        "valeur": 16.0,
+        "typeEvaluation": "cc",
+        "niveau": "L1",
+        "matricule": "26SVT001",
+        "code_matiere": "PHY101",
+        "nom_matiere": "Physique générale"
+    },
+    {
+        "idNote": 45,
+        "valeur": 17.0,
+        "typeEvaluation": "tp",
+        "niveau": "L1",
+        "matricule": "26SVT001",
+        "code_matiere": "PHY101",
+        "nom_matiere": "Physique générale"
+    },
+    {
+        "idNote": 46,
+        "valeur": 15.5,
+        "typeEvaluation": "ex",
+        "niveau": "L1",
+        "matricule": "26SVT001",
+        "code_matiere": "PHY101",
+        "nom_matiere": "Physique générale"
+    },
+    {
+        "idNote": 47,
+        "valeur": 15.0,
+        "typeEvaluation": "cc",
+        "niveau": "M1",
+        "matricule": "26UFR-SEA004",
+        "code_matiere": "INFO101",
+        "nom_matiere": "Introduction à la programmation"
+    },
+    {
+        "idNote": 48,
+        "valeur": 16.0,
+        "typeEvaluation": "ex",
+        "niveau": "M1",
+        "matricule": "26UFR-SEA004",
+        "code_matiere": "INFO101",
+        "nom_matiere": "Introduction à la programmation"
+    },
+    {
+        "idNote": 49,
+        "valeur": 14.0,
+        "typeEvaluation": "cc",
+        "niveau": "M1",
+        "matricule": "26UFR-SEA004",
+        "code_matiere": "MATH102",
+        "nom_matiere": "Algèbre linéaire"
+    },
+    {
+        "idNote": 50,
+        "valeur": 15.5,
+        "typeEvaluation": "ex",
+        "niveau": "M1",
+        "matricule": "26UFR-SEA004",
+        "code_matiere": "MATH102",
+        "nom_matiere": "Algèbre linéaire"
+    },
+    {
+        "idNote": 51,
+        "valeur": 17.0,
+        "typeEvaluation": "cc",
+        "niveau": "M1",
+        "matricule": "26UFR-SEA005",
+        "code_matiere": "INFO101",
+        "nom_matiere": "Introduction à la programmation"
+    },
+    {
+        "idNote": 52,
+        "valeur": 18.0,
+        "typeEvaluation": "ex",
+        "niveau": "M1",
+        "matricule": "26UFR-SEA005",
+        "code_matiere": "INFO101",
+        "nom_matiere": "Introduction à la programmation"
+    },
+    {
+        "idNote": 53,
+        "valeur": 16.0,
+        "typeEvaluation": "cc",
+        "niveau": "M1",
+        "matricule": "26UFR-SEA005",
+        "code_matiere": "MATH102",
+        "nom_matiere": "Algèbre linéaire"
+    },
+    {
+        "idNote": 54,
+        "valeur": 17.0,
+        "typeEvaluation": "ex",
+        "niveau": "M1",
+        "matricule": "26UFR-SEA005",
+        "code_matiere": "MATH102",
+        "nom_matiere": "Algèbre linéaire"
     }
 ]

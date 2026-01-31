@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 
+from config.ui_theme import UI_FONT, UI_FONT_BOLD
 from controllers.bulletin_controller import BulletinController
 
 
@@ -30,15 +31,15 @@ class BulletinView(tk.Frame):
 
 		# --- Bandeau haut (filtres niveau + département) ---
 		top_bar = tk.Frame(self)
-		top_bar.pack(fill=tk.X, padx=10, pady=8)
+		top_bar.pack(fill=tk.X, padx=12, pady=10)
 
-		tk.Label(top_bar, text="Niveau :").pack(side=tk.LEFT)
+		tk.Label(top_bar, text="Niveau :", font=UI_FONT).pack(side=tk.LEFT)
 		self.level_var = tk.StringVar(value="")
 		level_cb = ttk.Combobox(top_bar, textvariable=self.level_var, values=self.NIVEAUX, width=8, state="readonly")
 		level_cb.pack(side=tk.LEFT, padx=(4, 8))
 		level_cb.bind("<<ComboboxSelected>>", lambda e: self.refresh_students_list())
 
-		tk.Label(top_bar, text="Département :").pack(side=tk.LEFT)
+		tk.Label(top_bar, text="Département :", font=UI_FONT).pack(side=tk.LEFT)
 		self.dept_var = tk.StringVar(value="Tous")
 		self.dept_choices = ["Tous"]
 		self.dept_display_to_index = {}
@@ -48,85 +49,94 @@ class BulletinView(tk.Frame):
 
 		# --- Zone centrale ---
 		center = tk.Frame(self)
-		center.pack(fill=tk.BOTH, expand=True, padx=10, pady=(0, 10))
+		center.pack(fill=tk.BOTH, expand=True, padx=12, pady=(0, 12))
 
 		center.columnconfigure(0, weight=1)
 		center.columnconfigure(1, weight=4)
 		center.rowconfigure(0, weight=1)
 
 		# Liste des étudiants (gauche)
-		left_frame = tk.Frame(center, bd=1, relief=tk.SOLID)
+		left_frame = tk.LabelFrame(center, text=" Étudiants ", font=UI_FONT_BOLD, padx=6, pady=6)
 		left_frame.grid(row=0, column=0, sticky="nsew", padx=(0, 8))
 
-		tk.Label(left_frame, text="Étudiants", anchor="w").pack(fill=tk.X, padx=6, pady=4)
-
-		self.student_listbox = tk.Listbox(left_frame, exportselection=False)
-		self.student_listbox.pack(fill=tk.BOTH, expand=True, padx=6, pady=(0, 6))
+		left_inner = tk.Frame(left_frame)
+		left_inner.pack(fill=tk.BOTH, expand=True)
+		self.student_listbox = tk.Listbox(left_inner, exportselection=False, font=UI_FONT, height=20)
+		left_sb = ttk.Scrollbar(left_inner, orient="vertical", command=self.student_listbox.yview)
+		self.student_listbox.configure(yscrollcommand=left_sb.set)
+		self.student_listbox.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
+		left_sb.pack(side=tk.RIGHT, fill=tk.Y)
 		self.student_listbox.bind("<<ListboxSelect>>", lambda e: self.refresh_bulletin())
 
 		# Zone droite : infos + tableau + résumé
-		right_frame = tk.Frame(center, bd=1, relief=tk.SOLID)
+		right_frame = tk.Frame(center)
 		right_frame.grid(row=0, column=1, sticky="nsew")
+		right_frame.grid_rowconfigure(1, weight=1)
+		right_frame.grid_columnconfigure(0, weight=1)
 
-		# Infos étudiant
-		info_frame = tk.Frame(right_frame)
-		info_frame.pack(fill=tk.X, padx=6, pady=6)
+		# Infos étudiant (encadré)
+		info_frame = tk.LabelFrame(right_frame, text=" Informations étudiant ", font=UI_FONT_BOLD, padx=10, pady=8)
+		info_frame.grid(row=0, column=0, sticky="ew", padx=0, pady=(0, 8))
 
-		self.label_matricule = tk.Label(info_frame, text="Matricule :")
-		self.label_matricule.grid(row=0, column=0, sticky="w")
-		self.value_matricule = tk.Label(info_frame, text="-")
-		self.value_matricule.grid(row=0, column=1, sticky="w", padx=(4, 12))
+		info_font = UI_FONT
+		self.label_matricule = tk.Label(info_frame, text="Matricule :", font=info_font)
+		self.label_matricule.grid(row=0, column=0, sticky="w", padx=(0, 4), pady=2)
+		self.value_matricule = tk.Label(info_frame, text="-", font=info_font)
+		self.value_matricule.grid(row=0, column=1, sticky="w", padx=(0, 16), pady=2)
 
-		self.label_nom = tk.Label(info_frame, text="Nom :")
-		self.label_nom.grid(row=0, column=2, sticky="w")
-		self.value_nom = tk.Label(info_frame, text="-")
-		self.value_nom.grid(row=0, column=3, sticky="w", padx=(4, 12))
+		self.label_nom = tk.Label(info_frame, text="Nom :", font=info_font)
+		self.label_nom.grid(row=0, column=2, sticky="w", padx=(0, 4), pady=2)
+		self.value_nom = tk.Label(info_frame, text="-", font=info_font)
+		self.value_nom.grid(row=0, column=3, sticky="w", padx=(0, 16), pady=2)
 
-		self.label_prenom = tk.Label(info_frame, text="Prénom :")
-		self.label_prenom.grid(row=1, column=0, sticky="w")
-		self.value_prenom = tk.Label(info_frame, text="-")
-		self.value_prenom.grid(row=1, column=1, sticky="w", padx=(4, 12))
+		self.label_prenom = tk.Label(info_frame, text="Prénom :", font=info_font)
+		self.label_prenom.grid(row=1, column=0, sticky="w", padx=(0, 4), pady=2)
+		self.value_prenom = tk.Label(info_frame, text="-", font=info_font)
+		self.value_prenom.grid(row=1, column=1, sticky="w", padx=(0, 16), pady=2)
 
-		self.label_niveau = tk.Label(info_frame, text="Niveau :")
-		self.label_niveau.grid(row=1, column=2, sticky="w")
-		self.value_niveau = tk.Label(info_frame, text="-")
-		self.value_niveau.grid(row=1, column=3, sticky="w", padx=(4, 12))
+		self.label_niveau = tk.Label(info_frame, text="Niveau :", font=info_font)
+		self.label_niveau.grid(row=1, column=2, sticky="w", padx=(0, 4), pady=2)
+		self.value_niveau = tk.Label(info_frame, text="-", font=info_font)
+		self.value_niveau.grid(row=1, column=3, sticky="w", padx=(0, 16), pady=2)
 
-		self.label_dept = tk.Label(info_frame, text="Département :")
-		self.label_dept.grid(row=2, column=0, sticky="w")
-		self.value_dept = tk.Label(info_frame, text="-")
-		self.value_dept.grid(row=2, column=1, sticky="w", padx=(4, 12))
+		self.label_dept = tk.Label(info_frame, text="Département :", font=info_font)
+		self.label_dept.grid(row=2, column=0, sticky="w", padx=(0, 4), pady=2)
+		self.value_dept = tk.Label(info_frame, text="-", font=info_font)
+		self.value_dept.grid(row=2, column=1, sticky="w", padx=(0, 16), pady=2)
 
-		# Tableau des matières (moyenne avant coefficient)
+		# Tableau des matières (avec scrollbars)
+		table_container = tk.LabelFrame(right_frame, text=" Bulletin des matières ", font=UI_FONT_BOLD, padx=6, pady=6)
+		table_container.grid(row=1, column=0, sticky="nsew")
+		table_container.grid_rowconfigure(0, weight=1)
+		table_container.grid_columnconfigure(0, weight=1)
+
 		self.fields = ["code_matiere", "nom_matiere", "moyenne", "coefficient"]
-		# Style pour avoir les entêtes en gras (sans bordures spéciales)
 		style = ttk.Style()
-		style.configure("Bulletin.Treeview.Heading", font=("TkDefaultFont", 10, "bold"))
-		self.table = ttk.Treeview(right_frame, columns=self.fields, show="headings", style="Bulletin.Treeview")
-		for f in self.fields:
-			if f == "code_matiere":
-				head = "Code"
-			elif f == "nom_matiere":
-				head = "Matière"
-			elif f == "moyenne":
-				head = "Moyenne"
-			else:
-				head = "Coef"
+		style.configure("Bulletin.Treeview", font=UI_FONT, rowheight=26)
+		style.configure("Bulletin.Treeview.Heading", font=UI_FONT_BOLD, padding=(8, 6))
+		style.map("Bulletin.Treeview", background=[("selected", "#0078d4")])
+		self.table = ttk.Treeview(table_container, columns=self.fields, show="headings", style="Bulletin.Treeview", height=14, selectmode="browse")
+		vsb = ttk.Scrollbar(table_container, orient="vertical", command=self.table.yview)
+		hsb = ttk.Scrollbar(table_container, orient="horizontal", command=self.table.xview)
+		self.table.configure(yscrollcommand=vsb.set, xscrollcommand=hsb.set)
+		for f, head in [("code_matiere", "Code"), ("nom_matiere", "Matière"), ("moyenne", "Moyenne"), ("coefficient", "Coef")]:
 			self.table.heading(f, text=head)
-			self.table.column(f, width=120, anchor="center")
-		self.table.pack(fill=tk.BOTH, expand=True, padx=6, pady=(0, 6))
+			self.table.column(f, width=100 if f == "code_matiere" else (220 if f == "nom_matiere" else 90), minwidth=50, anchor="center")
+		self.table.grid(row=0, column=0, sticky="nsew")
+		vsb.grid(row=0, column=1, sticky="ns")
+		hsb.grid(row=1, column=0, sticky="ew")
 
-		# Résumé en bas
-		summary = tk.Frame(right_frame)
-		summary.pack(fill=tk.X, padx=6, pady=6)
+		# Résumé en bas (encadré)
+		summary = tk.LabelFrame(right_frame, text=" Résumé ", font=UI_FONT_BOLD, padx=12, pady=8)
+		summary.grid(row=2, column=0, sticky="ew", pady=(8, 0))
 
-		self.label_somme_coef = tk.Label(summary, text="Somme des coefficients : 0")
-		self.label_somme_coef.pack(side=tk.LEFT, padx=(0, 16))
+		self.label_somme_coef = tk.Label(summary, text="Somme des coefficients : 0", font=UI_FONT)
+		self.label_somme_coef.pack(side=tk.LEFT, padx=(0, 24))
 
-		self.label_moy_gen = tk.Label(summary, text="Moyenne générale : 0.00")
-		self.label_moy_gen.pack(side=tk.LEFT, padx=(0, 16))
+		self.label_moy_gen = tk.Label(summary, text="Moyenne générale : 0.00", font=UI_FONT_BOLD)
+		self.label_moy_gen.pack(side=tk.LEFT, padx=(0, 24))
 
-		self.label_rang = tk.Label(summary, text="Rang : -")
+		self.label_rang = tk.Label(summary, text="Rang : -", font=UI_FONT_BOLD)
 		self.label_rang.pack(side=tk.LEFT)
 
 		# Charger données initiales

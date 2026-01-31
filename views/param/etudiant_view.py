@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import ttk, messagebox
 
+from config.ui_theme import UI_FONT, UI_FONT_BOLD
 from controllers.departement_controller import DepartementController
 from controllers.etudiant_controller import EtudiantController
 from controllers.note_controller import NoteController
@@ -34,19 +35,19 @@ class EtudiantView(tk.Frame):
 
 		# --- Bandeau de commandes haut ---
 		top_bar = tk.Frame(self)
-		top_bar.pack(fill=tk.X, padx=10, pady=8)
+		top_bar.pack(fill=tk.X, padx=12, pady=10)
 
-		self.add_btn = tk.Button(top_bar, text="Ajouter", command=self.open_create_form)
+		self.add_btn = ttk.Button(top_bar, text="Ajouter", command=self.open_create_form)
 		self.add_btn.pack(side=tk.LEFT, padx=(0, 6))
 
-		self.edit_btn = tk.Button(top_bar, text="Modifier", command=self.open_edit_form)
+		self.edit_btn = ttk.Button(top_bar, text="Modifier", command=self.open_edit_form)
 		self.edit_btn.pack(side=tk.LEFT, padx=(0, 6))
 
-		self.del_btn = tk.Button(top_bar, text="Supprimer", command=self.delete_etudiant)
+		self.del_btn = ttk.Button(top_bar, text="Supprimer", command=self.delete_etudiant)
 		self.del_btn.pack(side=tk.LEFT, padx=(0, 12))
 
 		# Filtre par niveau
-		tk.Label(top_bar, text="Filtrer par niveau :").pack(side=tk.LEFT)
+		tk.Label(top_bar, text="Filtrer par niveau :", font=UI_FONT).pack(side=tk.LEFT)
 		self.level_var = tk.StringVar(value="")
 		level_cb = ttk.Combobox(top_bar, textvariable=self.level_var, values=self.NIVEAUX, width=8, state="readonly")
 		level_cb.pack(side=tk.LEFT, padx=(4, 0))
@@ -54,37 +55,52 @@ class EtudiantView(tk.Frame):
 
 		# --- Zone centrale avec 2 colonnes ---
 		center = tk.Frame(self)
-		center.pack(fill=tk.BOTH, expand=True, padx=10, pady=(0, 10))
+		center.pack(fill=tk.BOTH, expand=True, padx=12, pady=(0, 12))
 
 		center.columnconfigure(0, weight=1)
 		center.columnconfigure(1, weight=4)
 		center.rowconfigure(0, weight=1)
 
 		# Liste des départements (gauche)
-		left_frame = tk.Frame(center, bd=1, relief=tk.SOLID)
+		left_frame = tk.LabelFrame(center, text=" Départements ", font=UI_FONT_BOLD, padx=6, pady=6)
 		left_frame.grid(row=0, column=0, sticky="nsew", padx=(0, 8))
 
-		tk.Label(left_frame, text="Départements", anchor="w").pack(fill=tk.X, padx=6, pady=4)
-
-		self.dept_listbox = tk.Listbox(left_frame, exportselection=False)
-		self.dept_listbox.pack(fill=tk.BOTH, expand=True, padx=6, pady=(0, 6))
+		left_inner = tk.Frame(left_frame)
+		left_inner.pack(fill=tk.BOTH, expand=True)
+		self.dept_listbox = tk.Listbox(left_inner, exportselection=False, font=UI_FONT, height=20)
+		left_sb = ttk.Scrollbar(left_inner, orient="vertical", command=self.dept_listbox.yview)
+		self.dept_listbox.configure(yscrollcommand=left_sb.set)
+		self.dept_listbox.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
+		left_sb.pack(side=tk.RIGHT, fill=tk.Y)
 		self.dept_listbox.bind("<<ListboxSelect>>", lambda e: self.on_departement_select())
 
 		# Table des étudiants (droite)
-		right_frame = tk.Frame(center, bd=1, relief=tk.SOLID)
+		right_frame = tk.LabelFrame(center, text=" Étudiants ", font=UI_FONT_BOLD, padx=6, pady=6)
 		right_frame.grid(row=0, column=1, sticky="nsew")
+		right_frame.grid_rowconfigure(0, weight=1)
+		right_frame.grid_columnconfigure(0, weight=1)
 
-		tk.Label(right_frame, text="Étudiants", anchor="w").pack(fill=tk.X, padx=6, pady=4)
+		table_wrap = tk.Frame(right_frame)
+		table_wrap.grid(row=0, column=0, sticky="nsew")
+		table_wrap.grid_rowconfigure(0, weight=1)
+		table_wrap.grid_columnconfigure(0, weight=1)
 
 		self.fields = ["matricule", "nom", "prenom", "niveau"]
-		# Style pour avoir les entêtes en gras (sans bordures spéciales)
 		style = ttk.Style()
-		style.configure("Etudiant.Treeview.Heading", font=("TkDefaultFont", 10, "bold"))
-		self.table = ttk.Treeview(right_frame, columns=self.fields, show="headings", style="Etudiant.Treeview")
+		style.configure("Etudiant.Treeview", font=UI_FONT, rowheight=26)
+		style.configure("Etudiant.Treeview.Heading", font=UI_FONT_BOLD, padding=(8, 6))
+		style.map("Etudiant.Treeview", background=[("selected", "#0078d4")])
+		self.table = ttk.Treeview(table_wrap, columns=self.fields, show="headings", style="Etudiant.Treeview", height=18, selectmode="browse")
+		vsb = ttk.Scrollbar(table_wrap, orient="vertical", command=self.table.yview)
+		hsb = ttk.Scrollbar(table_wrap, orient="horizontal", command=self.table.xview)
+		self.table.configure(yscrollcommand=vsb.set, xscrollcommand=hsb.set)
 		for f in self.fields:
+			w = 100 if f == "matricule" else (160 if f in ("nom", "prenom") else 70)
 			self.table.heading(f, text=f.capitalize())
-			self.table.column(f, width=120, anchor="center")
-		self.table.pack(fill=tk.BOTH, expand=True, padx=6, pady=(0, 6))
+			self.table.column(f, width=w, minwidth=50, anchor="center")
+		self.table.grid(row=0, column=0, sticky="nsew")
+		vsb.grid(row=0, column=1, sticky="ns")
+		hsb.grid(row=1, column=0, sticky="ew")
 
 		# Charger les données
 		self.refresh_departements()
@@ -101,9 +117,10 @@ class EtudiantView(tk.Frame):
 			nom = d.get("nom_departement", "?") if isinstance(d, dict) else str(d)
 			self.dept_listbox.insert(tk.END, nom)
 		if self.departements:
-			# sélectionne le premier par défaut
 			self.dept_listbox.selection_set(0)
 			self.selected_departement_index = 0
+		else:
+			self.selected_departement_index = None
 
 	# --- Chargement étudiants en fonction du département & niveau ---
 	def refresh_students(self):
@@ -223,8 +240,8 @@ class EtudiantView(tk.Frame):
 			self.refresh_students()
 			top.destroy()
 
-		tk.Button(btns, text="Sauvegarder", command=save_and_close).pack(side=tk.LEFT, padx=6)
-		tk.Button(btns, text="Annuler", command=top.destroy).pack(side=tk.LEFT)
+		ttk.Button(btns, text="Sauvegarder", command=save_and_close).pack(side=tk.LEFT, padx=6)
+		ttk.Button(btns, text="Annuler", command=top.destroy).pack(side=tk.LEFT)
 
 		self.center_window(top, 480, 260)
 		top.wait_window(top)
@@ -279,14 +296,15 @@ class EtudiantView(tk.Frame):
 
 			self.refresh_students()
 
-	# --- Centrage fenêtre (repris de CRUDView) ---
+	# --- Centrage fenêtre par rapport à la fenêtre principale ---
 	def center_window(self, window, width, height):
-		self.master.update_idletasks()
-		mw = self.master.winfo_width()
-		mh = self.master.winfo_height()
-		mx = self.master.winfo_rootx()
-		my = self.master.winfo_rooty()
-		if mw == 1 and mh == 1:
+		root = self.winfo_toplevel()
+		root.update_idletasks()
+		mw = root.winfo_width()
+		mh = root.winfo_height()
+		mx = root.winfo_rootx()
+		my = root.winfo_rooty()
+		if mw <= 1 or mh <= 1:
 			sw = window.winfo_screenwidth()
 			sh = window.winfo_screenheight()
 			x = (sw - width) // 2

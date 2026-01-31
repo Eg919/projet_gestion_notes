@@ -1,18 +1,26 @@
 [
     {
-        "nom_departement": "yyyuuu",
-        "sigle_departement": "y"
+        "nom_departement": "Sciences Économiques et de Gestion",
+        "sigle_departement": "SEG"
     },
     {
-        "nom_departement": "yuyi",
-        "sigle_departement": "-y\u00e8"
+        "nom_departement": "Sciences Exactes et Appliquées",
+        "sigle_departement": "SEA"
     },
     {
-        "nom_departement": "uuih",
-        "sigle_departement": "tr"
+        "nom_departement": "Unité de Formation et de Recherche en Sciences Exactes et Appliquées (UFR-SEA)",
+        "sigle_departement": "UFR-SEA"
     },
     {
-        "nom_departement": "tttyt",
-        "sigle_departement": ""
+        "nom_departement": "Droit et Sciences Politiques",
+        "sigle_departement": "DSP"
+    },
+    {
+        "nom_departement": "Lettres, Arts et Sciences Humaines",
+        "sigle_departement": "LASH"
+    },
+    {
+        "nom_departement": "Sciences de la Vie et de la Terre",
+        "sigle_departement": "SVT"
     }
 ]

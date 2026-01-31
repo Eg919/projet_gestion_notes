@@ -1,5 +1,9 @@
+import logging
 import tkinter as tk
 from tkinter import ttk
+
+# Afficher les avertissements (ex. fichier JSON illisible) dans la console
+logging.basicConfig(level=logging.WARNING, format="%(levelname)s: %(message)s")
 
 # Import des vues
 from views.param.departement_view import DepartementView
@@ -33,14 +37,24 @@ def build_main_ui(root: tk.Tk):
 	bulletin_tab = BulletinView(notebook)
 	notebook.add(bulletin_tab, text="Bulletin")
 
-	# Rafraîchir certaines vues lors du changement d'onglet
+	# Rafraîchir les données de l'onglet à l'affichage pour prendre en compte
+	# les modifications faites dans les autres onglets
 	def on_tab_changed(event):
 		selected = event.widget.select()
 		tab = event.widget.nametowidget(selected)
-		# Quand on arrive sur l'onglet Notes ou Bulletin, recharger la liste des étudiants
-		if tab is note_tab:
+		if tab is departement_tab:
+			departement_tab.refresh_table()
+		elif tab is matiere_tab:
+			matiere_tab.refresh_table()
+		elif tab is etudiant_tab:
+			etudiant_tab.refresh_departements()
+			etudiant_tab.refresh_students()
+		elif tab is note_tab:
+			note_tab.load_matieres()
+			note_tab.load_departements()
 			note_tab.refresh_students_list()
 		elif tab is bulletin_tab:
+			bulletin_tab._load_departements()
 			bulletin_tab.refresh_students_list()
 			bulletin_tab.refresh_bulletin()
 
@@ -52,7 +66,7 @@ def build_main_ui(root: tk.Tk):
 if __name__ == "__main__":
 	# --- Création de la fenêtre principale ---
 	root = tk.Tk()
-	root.title("Gestion des Notes - Université")
+	root.title("Gestion des Notes - Université Joseph Ki-Zerbo")
 
 	# --- Taille et centrage de la fenêtre principale ---
 	width, height = 1024, 768

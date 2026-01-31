@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import ttk, messagebox
 
+from config.ui_theme import UI_FONT, UI_FONT_BOLD
 from controllers.etudiant_controller import EtudiantController
 from controllers.matiere_controller import MatiereController
 from controllers.note_controller import NoteController
@@ -42,25 +43,25 @@ class NoteView(tk.Frame):
 
 		# --- Bandeau de commandes haut ---
 		top_bar = tk.Frame(self)
-		top_bar.pack(fill=tk.X, padx=10, pady=8)
+		top_bar.pack(fill=tk.X, padx=12, pady=10)
 
-		self.add_btn = tk.Button(top_bar, text="Ajouter", command=self.open_create_form)
+		self.add_btn = ttk.Button(top_bar, text="Ajouter", command=self.open_create_form)
 		self.add_btn.pack(side=tk.LEFT, padx=(0, 6))
 
-		self.edit_btn = tk.Button(top_bar, text="Modifier", command=self.open_edit_form)
+		self.edit_btn = ttk.Button(top_bar, text="Modifier", command=self.open_edit_form)
 		self.edit_btn.pack(side=tk.LEFT, padx=(0, 6))
 
-		self.del_btn = tk.Button(top_bar, text="Supprimer", command=self.delete_note)
+		self.del_btn = ttk.Button(top_bar, text="Supprimer", command=self.delete_note)
 		self.del_btn.pack(side=tk.LEFT, padx=(0, 12))
 
 		# Filtres niveau + département pour la liste d'étudiants
-		tk.Label(top_bar, text="Niveau :").pack(side=tk.LEFT)
+		tk.Label(top_bar, text="Niveau :", font=UI_FONT).pack(side=tk.LEFT)
 		self.level_var = tk.StringVar(value="")
 		level_cb = ttk.Combobox(top_bar, textvariable=self.level_var, values=self.NIVEAUX, width=8, state="readonly")
 		level_cb.pack(side=tk.LEFT, padx=(4, 8))
 		level_cb.bind("<<ComboboxSelected>>", lambda e: self.refresh_students_list())
 
-		tk.Label(top_bar, text="Département :").pack(side=tk.LEFT)
+		tk.Label(top_bar, text="Département :", font=UI_FONT).pack(side=tk.LEFT)
 		self.dept_var = tk.StringVar(value="Tous")
 		self.dept_choices = ["Tous"]
 		self.dept_display_to_index = {}
@@ -70,45 +71,57 @@ class NoteView(tk.Frame):
 
 		# --- Zone centrale avec 2 colonnes ---
 		center = tk.Frame(self)
-		center.pack(fill=tk.BOTH, expand=True, padx=10, pady=(0, 10))
+		center.pack(fill=tk.BOTH, expand=True, padx=12, pady=(0, 12))
 
 		center.columnconfigure(0, weight=1)
 		center.columnconfigure(1, weight=4)
 		center.rowconfigure(0, weight=1)
 
 		# Liste des étudiants (gauche)
-		left_frame = tk.Frame(center, bd=1, relief=tk.SOLID)
+		left_frame = tk.LabelFrame(center, text=" Étudiants ", font=UI_FONT_BOLD, padx=6, pady=6)
 		left_frame.grid(row=0, column=0, sticky="nsew", padx=(0, 8))
 
-		tk.Label(left_frame, text="Étudiants", anchor="w").pack(fill=tk.X, padx=6, pady=4)
-
-		self.student_listbox = tk.Listbox(left_frame, exportselection=False)
-		self.student_listbox.pack(fill=tk.BOTH, expand=True, padx=6, pady=(0, 6))
+		left_inner = tk.Frame(left_frame)
+		left_inner.pack(fill=tk.BOTH, expand=True)
+		self.student_listbox = tk.Listbox(left_inner, exportselection=False, font=UI_FONT, height=20)
+		left_sb = ttk.Scrollbar(left_inner, orient="vertical", command=self.student_listbox.yview)
+		self.student_listbox.configure(yscrollcommand=left_sb.set)
+		self.student_listbox.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
+		left_sb.pack(side=tk.RIGHT, fill=tk.Y)
 		self.student_listbox.bind("<<ListboxSelect>>", lambda e: self.on_student_select())
 
 		# Table des notes (droite)
-		right_frame = tk.Frame(center, bd=1, relief=tk.SOLID)
+		right_frame = tk.LabelFrame(center, text=" Notes de l'étudiant ", font=UI_FONT_BOLD, padx=6, pady=6)
 		right_frame.grid(row=0, column=1, sticky="nsew")
+		right_frame.grid_rowconfigure(0, weight=1)
+		right_frame.grid_columnconfigure(0, weight=1)
 
-		tk.Label(right_frame, text="Notes de l'étudiant", anchor="w").pack(fill=tk.X, padx=6, pady=4)
+		table_wrap = tk.Frame(right_frame)
+		table_wrap.grid(row=0, column=0, sticky="nsew")
+		table_wrap.grid_rowconfigure(0, weight=1)
+		table_wrap.grid_columnconfigure(0, weight=1)
 
 		self.fields = ["nom_matiere", "typeEvaluation", "valeur", "niveau"]
-		# Style pour avoir les entêtes en gras (sans bordures spéciales)
 		style = ttk.Style()
-		style.configure("Note.Treeview.Heading", font=("TkDefaultFont", 10, "bold"))
-		self.table = ttk.Treeview(right_frame, columns=self.fields, show="headings", style="Note.Treeview")
-		for f in self.fields:
-			if f == "nom_matiere":
-				head = "Matière"
-			elif f == "typeEvaluation":
-				head = "Type"
-			elif f == "valeur":
-				head = "Note"
-			else:
-				head = "Niveau"
-			self.table.heading(f, text=head)
-			self.table.column(f, width=120, anchor="center")
-		self.table.pack(fill=tk.BOTH, expand=True, padx=6, pady=(0, 6))
+		style.configure("Note.Treeview", font=UI_FONT, rowheight=26)
+		style.configure("Note.Treeview.Heading", font=UI_FONT_BOLD, padding=(8, 6))
+		style.map("Note.Treeview", background=[("selected", "#0078d4")])
+		self.table = ttk.Treeview(table_wrap, columns=self.fields, show="headings", style="Note.Treeview", height=18, selectmode="browse")
+		vsb = ttk.Scrollbar(table_wrap, orient="vertical", command=self.table.yview)
+		hsb = ttk.Scrollbar(table_wrap, orient="horizontal", command=self.table.xview)
+		self.table.configure(yscrollcommand=vsb.set, xscrollcommand=hsb.set)
+		cols_config = [
+			("nom_matiere", "Matière", 220),
+			("typeEvaluation", "Type", 80),
+			("valeur", "Note", 80),
+			("niveau", "Niveau", 70),
+		]
+		for fid, head, w in cols_config:
+			self.table.heading(fid, text=head)
+			self.table.column(fid, width=w, minwidth=50, anchor="center")
+		self.table.grid(row=0, column=0, sticky="nsew")
+		vsb.grid(row=0, column=1, sticky="ns")
+		hsb.grid(row=1, column=0, sticky="ew")
 
 		# Charger les données
 		self.load_matieres()
@@ -389,8 +402,8 @@ class NoteView(tk.Frame):
 			self.refresh_notes()
 			top.destroy()
 
-		tk.Button(btns, text="Sauvegarder", command=save_and_close).pack(side=tk.LEFT, padx=6)
-		tk.Button(btns, text="Annuler", command=top.destroy).pack(side=tk.LEFT)
+		ttk.Button(btns, text="Sauvegarder", command=save_and_close).pack(side=tk.LEFT, padx=6)
+		ttk.Button(btns, text="Annuler", command=top.destroy).pack(side=tk.LEFT)
 
 		self.center_window(top, 520, 260)
 		top.wait_window(top)
@@ -423,14 +436,15 @@ class NoteView(tk.Frame):
 			self.note_controller.delete(global_idx)
 			self.refresh_notes()
 
-	# --- Centrage fenêtre (repris de CRUDView) ---
+	# --- Centrage fenêtre par rapport à la fenêtre principale ---
 	def center_window(self, window, width, height):
-		self.master.update_idletasks()
-		mw = self.master.winfo_width()
-		mh = self.master.winfo_height()
-		mx = self.master.winfo_rootx()
-		my = self.master.winfo_rooty()
-		if mw == 1 and mh == 1:
+		root = self.winfo_toplevel()
+		root.update_idletasks()
+		mw = root.winfo_width()
+		mh = root.winfo_height()
+		mx = root.winfo_rootx()
+		my = root.winfo_rooty()
+		if mw <= 1 or mh <= 1:
 			sw = window.winfo_screenwidth()
 			sh = window.winfo_screenheight()
 			x = (sw - width) // 2

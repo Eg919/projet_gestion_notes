@@ -1,6 +1,39 @@
 import tkinter as tk
 from tkinter import ttk, messagebox
 
+from config.ui_theme import UI_FONT, UI_FONT_BOLD
+
+# Largeurs de colonnes par défaut (en caractères) pour les champs courants
+DEFAULT_COLUMN_WIDTH = 140
+FIELD_WIDTHS = {
+    "nom_departement": 220,
+    "sigle_departement": 120,
+    "code_matiere": 100,
+    "nom_matiere": 200,
+    "coefficient": 90,
+    "coefficient_cc": 90,
+    "coefficient_tp": 90,
+    "coefficient_ex": 90,
+}
+
+
+def _apply_table_style(style_name="Crud"):
+    """Applique un style moderne aux Treeview (entêtes, lignes, police)."""
+    style = ttk.Style()
+    style.configure(
+        f"{style_name}.Treeview",
+        font=UI_FONT,
+        rowheight=28,
+        fieldbackground="white",
+    )
+    style.configure(
+        f"{style_name}.Treeview.Heading",
+        font=UI_FONT_BOLD,
+        padding=(8, 6),
+    )
+    style.map(f"{style_name}.Treeview", background=[("selected", "#0078d4")])
+
+
 class CRUDView(tk.Frame):
     def __init__(self, master, controller, fields):
         super().__init__(master)
@@ -8,33 +41,48 @@ class CRUDView(tk.Frame):
         self.controller = controller
         self.fields = fields
 
-        # --- Pack général du Fenetre ---
         self.pack(fill=tk.BOTH, expand=True)
 
         # --- Frame pour les boutons ---
         btn_frame = tk.Frame(self)
-        btn_frame.pack(fill=tk.X, padx=10, pady=8)
+        btn_frame.pack(fill=tk.X, padx=12, pady=10)
 
-        self.add_btn = tk.Button(btn_frame, text="Ajouter", command=self.open_create_form)
+        self.add_btn = ttk.Button(btn_frame, text="Ajouter", command=self.open_create_form)
         self.add_btn.pack(side=tk.LEFT, padx=(0, 6))
 
-        self.edit_btn = tk.Button(btn_frame, text="Modifier", command=self.open_edit_form)
+        self.edit_btn = ttk.Button(btn_frame, text="Modifier", command=self.open_edit_form)
         self.edit_btn.pack(side=tk.LEFT, padx=(0, 6))
 
-        self.del_btn = tk.Button(btn_frame, text="Supprimer", command=self.delete)
+        self.del_btn = ttk.Button(btn_frame, text="Supprimer", command=self.delete)
         self.del_btn.pack(side=tk.LEFT)
 
-        # --- Table principale ---
-        # Style avec entêtes en gras (pas de bordures spéciales pour éviter les erreurs)
-        style = ttk.Style()
-        style.configure("Crud.Treeview.Heading", font=("TkDefaultFont", 10, "bold"))
-        self.table = ttk.Treeview(self, columns=self.fields, show="headings", style="Crud.Treeview")
-        for f in self.fields:
-            self.table.heading(f, text=f)
-            self.table.column(f, width=120, anchor="center")
-        self.table.pack(fill=tk.BOTH, expand=True, padx=10, pady=(0, 10))
+        # --- Conteneur table + scrollbars ---
+        table_container = tk.Frame(self)
+        table_container.pack(fill=tk.BOTH, expand=True, padx=12, pady=(0, 12))
 
-        # Rafraîchir la table pour afficher les données existantes
+        _apply_table_style("Crud")
+        self.table = ttk.Treeview(
+            table_container,
+            columns=self.fields,
+            show="headings",
+            style="Crud.Treeview",
+            selectmode="browse",
+            height=18,
+        )
+        vsb = ttk.Scrollbar(table_container, orient="vertical", command=self.table.yview)
+        hsb = ttk.Scrollbar(table_container, orient="horizontal", command=self.table.xview)
+        self.table.configure(yscrollcommand=vsb.set, xscrollcommand=hsb.set)
+
+        for f in self.fields:
+            width = FIELD_WIDTHS.get(f, DEFAULT_COLUMN_WIDTH)
+            self.table.heading(f, text=f.replace("_", " ").title())
+            self.table.column(f, width=width, minwidth=60, anchor="center")
+        self.table.grid(row=0, column=0, sticky="nsew")
+        vsb.grid(row=0, column=1, sticky="ns")
+        hsb.grid(row=1, column=0, sticky="ew")
+        table_container.grid_rowconfigure(0, weight=1)
+        table_container.grid_columnconfigure(0, weight=1)
+
         self.refresh_table()
 
     # --- Rafraîchissement de la table ---
@@ -85,11 +133,11 @@ class CRUDView(tk.Frame):
         for i, field in enumerate(self.fields):
             row_label = 2 * i
             row_entry = row_label + 1
-            # Label au-dessus du champ de saisie
-            tk.Label(form_frame, text=field).grid(row=row_label, column=0, sticky="w", padx=(0,6), pady=(4, 0))
+            label_text = field.replace("_", " ").strip().title()
+            tk.Label(form_frame, text=label_text, font=UI_FONT).grid(row=row_label, column=0, sticky="w", padx=(0, 8), pady=(6, 0))
             var = tk.StringVar(value=str(data.get(field, "")) if isinstance(data, dict) else "")
-            ent = tk.Entry(form_frame, textvariable=var, width=40)
-            ent.grid(row=row_entry, column=0, sticky="we", pady=(0, 4))
+            ent = tk.Entry(form_frame, textvariable=var, width=42, font=UI_FONT)
+            ent.grid(row=row_entry, column=0, sticky="we", pady=(0, 6))
             entries[field] = var
 
         btns = tk.Frame(top)
@@ -107,8 +155,8 @@ class CRUDView(tk.Frame):
             except Exception as e:
                 messagebox.showerror("Erreur", f"Échec de l'opération : {e}")
 
-        tk.Button(btns, text="Sauvegarder", command=save_and_close).pack(side=tk.LEFT, padx=6)
-        tk.Button(btns, text="Annuler", command=top.destroy).pack(side=tk.LEFT)
+        ttk.Button(btns, text="Sauvegarder", command=save_and_close).pack(side=tk.LEFT, padx=6)
+        ttk.Button(btns, text="Annuler", command=top.destroy).pack(side=tk.LEFT)
 
         # Centrer le formulaire
         height = (len(self.fields) * 30) + 140
@@ -134,14 +182,15 @@ class CRUDView(tk.Frame):
         except Exception as e:
             messagebox.showerror("Erreur", f"Impossible de supprimer : {e}")
 
-    # --- Centrer une fenêtre ---
+    # --- Centrer une fenêtre par rapport à la fenêtre principale ---
     def center_window(self, window, width, height):
-        self.master.update_idletasks()
-        mw = self.master.winfo_width()
-        mh = self.master.winfo_height()
-        mx = self.master.winfo_rootx()
-        my = self.master.winfo_rooty()
-        if mw == 1 and mh == 1:
+        root = self.winfo_toplevel()
+        root.update_idletasks()
+        mw = root.winfo_width()
+        mh = root.winfo_height()
+        mx = root.winfo_rootx()
+        my = root.winfo_rooty()
+        if mw <= 1 or mh <= 1:
             sw = window.winfo_screenwidth()
             sh = window.winfo_screenheight()
             x = (sw - width) // 2

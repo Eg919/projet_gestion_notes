@@ -1,18 +1,50 @@
 [
     {
-        "code_matiere": "PHY101",
-        "nom_matiere": "Physique",
-        "coefficient": 3.0,
-        "coefficient_cot": 0.5,
-        "coefficient_tp": 1.0,
-        "coefficient_ex": 1.5
+        "code_matiere": "MATH101",
+        "nom_matiere": "Algèbre et Analyse 1",
+        "coefficient": 4.0,
+        "coefficient_cc": 1.0,
+        "coefficient_tp": 0.5,
+        "coefficient_ex": 2.5
     },
     {
-        "code_matiere": "CHM101",
-        "nom_matiere": "Chimie",
+        "code_matiere": "PHY101",
+        "nom_matiere": "Physique générale",
         "coefficient": 3.5,
-        "coefficient_cot": 1.0,
+        "coefficient_cc": 0.5,
         "coefficient_tp": 1.0,
-        "coefficient_ex": 1.5
+        "coefficient_ex": 2.0
+    },
+    {
+        "code_matiere": "INFO101",
+        "nom_matiere": "Introduction à la programmation",
+        "coefficient": 3.0,
+        "coefficient_cc": 0.5,
+        "coefficient_tp": 1.5,
+        "coefficient_ex": 1.0
+    },
+    {
+        "code_matiere": "ECON101",
+        "nom_matiere": "Principes de microéconomie",
+        "coefficient": 3.0,
+        "coefficient_cc": 1.0,
+        "coefficient_tp": 0.0,
+        "coefficient_ex": 2.0
+    },
+    {
+        "code_matiere": "DROIT101",
+        "nom_matiere": "Introduction au droit",
+        "coefficient": 3.0,
+        "coefficient_cc": 1.0,
+        "coefficient_tp": 0.0,
+        "coefficient_ex": 2.0
+    },
+    {
+        "code_matiere": "MATH102",
+        "nom_matiere": "Algèbre linéaire",
+        "coefficient": 3.5,
+        "coefficient_cc": 1.0,
+        "coefficient_tp": 0.5,
+        "coefficient_ex": 2.0
     }
 ]
